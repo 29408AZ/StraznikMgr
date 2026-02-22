@@ -7,6 +7,7 @@ namespace Services
         string GetFilePath(string defaultPath);
         ExcelPackage GetPackage();
         Task<ExcelPackage> OpenFileAsync(string filePath, CancellationToken cancellationToken = default);
+        Task SaveAsync(CancellationToken cancellationToken = default);
         string PromptForFilePath(string defaultPath);
     }
 }

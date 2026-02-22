@@ -70,6 +70,28 @@ namespace Services
             return _package;
         }
 
+        public async Task SaveAsync(CancellationToken cancellationToken = default)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+
+            if (_disposed)
+                throw new ObjectDisposedException(nameof(ExcelFileService));
+
+            if (_package == null)
+                throw new InvalidOperationException("Package Excel nie jest dostępny. Wywołaj OpenFileAsync() najpierw.");
+
+            try
+            {
+                await _package.SaveAsync(cancellationToken);
+            }
+            catch (IOException ex) when (ex.Message.Contains("being used by another process"))
+            {
+                throw new InvalidOperationException(
+                    "Nie można zapisać pliku Excel. Plik jest otwarty w innym programie (np. Excel). " +
+                    "Zamknij plik i spróbuj ponownie.", ex);
+            }
+        }
+
         public void Dispose()
         {
             if (!_disposed)

@@ -21,14 +21,15 @@ namespace ModulePatrol.ViewModels
         private readonly IJednostkaPlywajacaService _jednostkaService;
         private readonly IZalogaService _zalogaService;
         private readonly ISwiadectwaService _swiadectwaService;
+        private readonly IPatrolService _patrolService;
         private readonly IEventAggregator _eventAggregator;
         private readonly ILogger<PatrolViewModel> _logger;
         
         private CancellationTokenSource? _cts;
         private bool _disposed;
 
-        private DateTime _dataOd = DateTime.Today;
-        private DateTime _dataDo = DateTime.Today;
+        private DateTime _dataOd = new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1);
+        private DateTime _dataDo = new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1).AddMonths(2).AddDays(-1);
         private string? _wybranaKategoria;
         private JednostkaPlywajaca? _wybranaJednostka;
         private Marynarz? _wybranyMarynarz;
@@ -46,13 +47,15 @@ namespace ModulePatrol.ViewModels
         private readonly Func<ZalogaPodgladRequest, bool?> _podgladFactory;
 
         public PatrolViewModel(IMarynarzService marynarzService, IJednostkaPlywajacaService jednostkaService,
-            IZalogaService zalogaService, ISwiadectwaService swiadectwaService, IEventAggregator eventAggregator,
-            ILogger<PatrolViewModel> logger, Func<ZalogaPodgladRequest, bool?> podgladFactory)
+            IZalogaService zalogaService, ISwiadectwaService swiadectwaService, IPatrolService patrolService,
+            IEventAggregator eventAggregator, ILogger<PatrolViewModel> logger, 
+            Func<ZalogaPodgladRequest, bool?> podgladFactory)
         {
             _marynarzService = marynarzService;
             _jednostkaService = jednostkaService;
             _zalogaService = zalogaService;
             _swiadectwaService = swiadectwaService;
+            _patrolService = patrolService;
             _eventAggregator = eventAggregator;
             _logger = logger;
             _podgladFactory = podgladFactory ?? (_ => false);
@@ -215,47 +218,89 @@ namespace ModulePatrol.ViewModels
                    SlotyZalogi.All(s => s.JestObsadzony);
         }
 
-        private void ZapiszPatrol()
+        private async void ZapiszPatrol()
         {
             if (WybranaJednostka == null || WybranaKategoria == null) return;
 
-            var patrol = new Patrol(DataOd, DataDo, WybranaKategoria, WybranaJednostka);
-
-            foreach (var slot in SlotyZalogi.Where(s => s.JestObsadzony && s.PrzydzielonyMarynarz != null))
+            try
             {
-                patrol.DodajZaloge(new PatrolZaloga(slot.Stanowisko, slot.PrzydzielonyMarynarz!));
-            }
+                var patrol = new Patrol(DataOd, DataDo, WybranaKategoria, WybranaJednostka);
 
-            var request = new ZalogaPodgladRequest
-            {
-                DataOd = patrol.DataOd,
-                DataDo = patrol.DataDo,
-                Kategoria = patrol.Kategoria,
-                Jednostka = patrol.Jednostka.Jednostki,
-                Zaloga = patrol.Zaloga
-                    .Select(z => new ZalogaPozycja { Stanowisko = z.Stanowisko, Marynarz = z.Marynarz.Nazwa })
-                    .ToList()
-            };
-
-            var wynik = _podgladFactory(request);
-            if (wynik == true)
-            {
-                _logger.LogInformation("Zapisano patrol: {DataOd:d} - {DataDo:d}, Jednostka: {Jednostka}", 
-                    patrol.DataOd, patrol.DataDo, patrol.Jednostka.Jednostki);
-                
-                foreach (var zalogant in patrol.Zaloga)
+                foreach (var slot in SlotyZalogi.Where(s => s.JestObsadzony && s.PrzydzielonyMarynarz != null))
                 {
-                    _logger.LogDebug("- {Stanowisko}: {Funkcjonariusz}", 
-                        zalogant.Stanowisko, zalogant.Marynarz.Funkcjonariusze);
+                    patrol.DodajZaloge(new PatrolZaloga(slot.Stanowisko, slot.PrzydzielonyMarynarz!));
                 }
-                Anuluj();
+
+                var request = new ZalogaPodgladRequest
+                {
+                    DataOd = patrol.DataOd,
+                    DataDo = patrol.DataDo,
+                    Kategoria = patrol.Kategoria,
+                    Jednostka = patrol.Jednostka.Jednostki,
+                    Zaloga = patrol.Zaloga
+                        .Select(z => new ZalogaPozycja { Stanowisko = z.Stanowisko, Marynarz = z.Marynarz.Nazwa })
+                        .ToList()
+                };
+
+                var wynik = _podgladFactory(request);
+                if (wynik == true)
+                {
+                    _logger.LogInformation("Użytkownik zatwierdził patrol: {DataOd:d} - {DataDo:d}, Jednostka: {Jednostka}", 
+                        patrol.DataOd, patrol.DataDo, patrol.Jednostka.Jednostki);
+
+                    // Zapisz patrol do grafiku Excel
+                    var result = await _patrolService.ZapiszPatrolDoGrafikuAsync(patrol);
+                    
+                    if (result.IsSuccess)
+                    {
+                        _logger.LogInformation("Patrol zapisany pomyślnie do grafiku");
+                        
+                        foreach (var zalogant in patrol.Zaloga)
+                        {
+                            _logger.LogDebug("- {Stanowisko}: {Funkcjonariusz}", 
+                                zalogant.Stanowisko, zalogant.Marynarz.Funkcjonariusze);
+                        }
+
+                        // Publikuj event - inne ViewModele mogą przeładować dane
+                        _eventAggregator.GetEvent<GrafikUpdatedEvent>().Publish();
+                        
+                        // Odśwież listę marynarzy, ponieważ grafik się zmienił
+                        await _marynarzService.RefreshAsync();
+
+                        System.Windows.MessageBox.Show(
+                            "Patrol został zapisany i grafik zaktualizowany pomyślnie!", 
+                            "Sukces", 
+                            System.Windows.MessageBoxButton.OK, 
+                            System.Windows.MessageBoxImage.Information);
+
+                        Anuluj();
+                    }
+                    else
+                    {
+                        _logger.LogError("Błąd podczas zapisu patrolu: {Error}", result.Error);
+                        System.Windows.MessageBox.Show(
+                            $"Nie udało się zapisać patrolu:\n{result.Error}", 
+                            "Błąd", 
+                            System.Windows.MessageBoxButton.OK, 
+                            System.Windows.MessageBoxImage.Error);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Nieoczekiwany błąd podczas zapisywania patrolu");
+                System.Windows.MessageBox.Show(
+                    $"Wystąpił nieoczekiwany błąd:\n{ex.Message}", 
+                    "Błąd", 
+                    System.Windows.MessageBoxButton.OK, 
+                    System.Windows.MessageBoxImage.Error);
             }
         }
 
         private void Anuluj()
         {
-            DataOd = DateTime.Today;
-            DataDo = DateTime.Today;
+            DataOd = new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1);
+            DataDo = new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1).AddMonths(2).AddDays(-1);
             WybranaKategoria = null;
             WybranaJednostka = null;
             WybranyMarynarz = null;

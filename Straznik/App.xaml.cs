@@ -41,6 +41,7 @@ namespace Straznik
             containerRegistry.RegisterSingleton<IJednostkaPlywajacaService, ExcelJednostkaPlywajacaService>();
             containerRegistry.RegisterSingleton<IZalogaService, ExcelZalogaService>();
             containerRegistry.RegisterSingleton<ISwiadectwaService, SwiadectwaService>();
+            containerRegistry.RegisterSingleton<IPatrolService, ExcelPatrolService>();
 
             // Rejestracja Lazy<IGrafikService> dla rozwiązania circular dependency
             containerRegistry.Register<Lazy<IGrafikService>>(c => 
