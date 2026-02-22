@@ -1,0 +1,75 @@
+classDiagram 
+	
+	class SzczegolyViewModel  {
+		-IRegionManager _regionManager 
+		-IMarynarzService _marynarzService 
+		-IZalogaService _zalogaService 
+		-ISwiadectwaService _swiadectwaService 
+		-IEventAggregator _eventAggregator 
+		-Marynarz? _wybranyMarynarz 
+		-JednostkaPlywajaca? _wybranaJednostka 
+		-ObservableCollection~Zaloga~ _zalogi 
+		-SwiadectwaKategorie _swiadectwa 
+		-bool _isSelectionLocked 
+		-string REGION_WIDOKU 
+		-string WIDOK_MARYNARZ 
+		-string WIDOK_JEDNOSTKA 
+		+ SwiadectwaKatII : ObservableCollection~Swiadectwo~
+		+ SwiadectwaKatIII : ObservableCollection~Swiadectwo~
+		+ SwiadectwaKatIV : ObservableCollection~Swiadectwo~
+		+ WybranyMarynarz : Marynarz?
+		+ WybranaJednostka : JednostkaPlywajaca?
+		+ Zalogi : ObservableCollection~Zaloga~
+		-SubskrybujZdarzenia() void
+		-PrzelaczWidokMarynarz(Marynarz marynarz) void
+		-AktualizujSwiadectwa(int marynarzId) void
+		-PrzelaczWidokJednostka(JednostkaPlywajaca jednPlyw) void
+		-ZaladujZalogiDlaJednostki(JednostkaPlywajaca jednostka) void
+		-AktywujWidok(string nazwaWidoku) void
+		-UtworzWidok(string nazwaWidoku) object
+	}
+	class SzczegolyMarynarzaView  {
+	}
+	class SzczegolyJednostkiView  {
+	}
+	class NullToVisibilityConverter  {
+		+Convert(object value, Type targetType, object parameter, CultureInfo culture) object
+		+ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) object
+	}
+	class ModuleEdycja  {
+		-IRegionManager _regionManager 
+		+OnInitialized(IContainerProvider containerProvider) void
+		+RegisterTypes(IContainerRegistry containerRegistry) void
+	}
+	class EdycjaView  {
+	}
+	class EdycjaView  {
+		-System.Windows.Controls.ContentControl SelectedViewContent 
+		-bool _contentLoaded 
+		+InitializeComponent() void
+		-Connect(int connectionId, object target) void
+	}
+	class SzczegolyJednostkiView  {
+		-bool _contentLoaded 
+		+InitializeComponent() void
+		-Connect(int connectionId, object target) void
+	}
+	class SzczegolyMarynarzaView  {
+		-bool _contentLoaded 
+		+InitializeComponent() void
+		-Connect(int connectionId, object target) void
+	}
+	
+	SzczegolyViewModel --|> BindableBase
+	SzczegolyMarynarzaView --|> UserControl
+	SzczegolyJednostkiView --|> UserControl
+	NullToVisibilityConverter --|> IValueConverter
+	ModuleEdycja --|> IModule
+	EdycjaView --|> UserControl
+	EdycjaView --|> System
+	EdycjaView --|> System
+	SzczegolyJednostkiView --|> System
+	SzczegolyJednostkiView --|> System
+	SzczegolyMarynarzaView --|> System
+	SzczegolyMarynarzaView --|> System
+	

@@ -1,0 +1,115 @@
+﻿<UserControl x:Class="ModulePatrol.Views.PatrolView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:prism="http://prismlibrary.com/"
+             xmlns:converters="clr-namespace:ModulePatrol.Converters">
+
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        <converters:InverseBooleanToVisibilityConverter x:Key="InverseBooleanToVisibilityConverter"/>
+    </UserControl.Resources>
+        <GroupBox x:Name="PatrolGroup" Header="PATROL" Margin="5" Background="LightGray">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Górny panel z datami i kategorią -->
+        <StackPanel Grid.Row="0" Margin="0,0,0,10">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                
+                    <WrapPanel Grid.Column="0" Grid.ColumnSpan="2">
+                        <TextBlock Text="Data od:" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5 0 10 0"/>
+                        <DatePicker SelectedDate="{Binding DataOd}" Margin="5 0 10 0" Height="5" Width="150"/>
+                        <TextBlock Text="Data do:" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5 0 10 0"/>
+                        <DatePicker SelectedDate="{Binding DataDo}" Margin="5 0 10 0" Height="5" Width="150"/>
+                    </WrapPanel>
+                
+                    <WrapPanel Grid.Column="2" HorizontalAlignment="Stretch">
+                        <TextBlock Text="Kategoria:" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5 0 5 0"/>
+            <ComboBox ItemsSource="{Binding KategorieJednostek}"
+                      SelectedItem="{Binding WybranaKategoria}"
+                      MinWidth="150"
+                      Height="5"/>
+                    </WrapPanel>
+                    <WrapPanel Grid.Column="32195" HorizontalAlignment="Stretch">
+                        <TextBlock Text="Jednostka:" VerticalAlignment="Center" HorizontalAlignment="Left" />
+                        <ComboBox ItemsSource="{Binding DostepneJednostki}" 
+                                  SelectedItem="{Binding WybranaJednostka}"
+                                  DisplayMemberPath="Jednostki"
+                                  MinWidth="150" />
+
+                    </WrapPanel>
+                </Grid>
+
+
+        </StackPanel>
+
+        <!-- Główny panel z listami -->
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Lista dostępnych marynarzy -->
+            <DockPanel Grid.Column="0">
+                <TextBlock DockPanel.Dock="Top" Text="Dostępni marynarze:" Margin="0,0,0,5"/>
+                <ListView ItemsSource="{Binding DostepniMarynarze}"
+                         SelectedItem="{Binding WybranyMarynarz}"
+                         DisplayMemberPath="Nazwa"/>
+            </DockPanel>
+
+            <!-- Przyciski -->
+            <StackPanel Grid.Column="1" Margin="10,0" VerticalAlignment="Center">
+                <Button Content="Dodaj" 
+                        Command="{Binding DodajDoZalogiCmd}"
+                        Margin="0,0,0,5"
+                        Padding="5"/>
+                <Button Content="Usuń" 
+                        Command="{Binding UsunZZalogiCmd}"
+                        Padding="5"/>
+            </StackPanel>
+
+            <!-- Lista przydzielonej załogi -->
+            <DockPanel Grid.Column="2">
+                <TextBlock DockPanel.Dock="Top" Text="Przydzielona załoga:" Margin="0,0,0,5"/>
+                <ListView ItemsSource="{Binding SlotyZalogi}"
+                         SelectedItem="{Binding WybranySlot}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <TextBlock Text="{Binding Stanowisko}" 
+                                         Visibility="{Binding JestObsadzony, Converter={StaticResource InverseBooleanToVisibilityConverter}}"
+                                         Opacity="0.5"/>
+                                <TextBlock Text="{Binding PrzydzielonyMarynarz.Nazwa}"
+                                         Visibility="{Binding JestObsadzony, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                            </Grid>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </DockPanel>
+        </Grid>
+
+        <!-- Dolny panel z przyciskami -->
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10,0,0">
+            <Button Content="Zapisz patrol" 
+                    Command="{Binding ZapiszPatrolCmd}"
+                    Margin="0,0,10,0"
+                    Padding="10,5"/>
+            <Button Content="Anuluj" 
+                    Command="{Binding AnulujCommand}"
+                    Padding="10,5"/>
+        </StackPanel>
+    </Grid>
+        </GroupBox>
+</UserControl>

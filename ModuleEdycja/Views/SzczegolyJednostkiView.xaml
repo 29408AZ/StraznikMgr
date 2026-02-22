@@ -1,0 +1,58 @@
+<UserControl x:Class="ModuleEdycja.Views.SzczegolyJednostkiView"
+            xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+            xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+            xmlns:prism="http://prismlibrary.com/"
+            xmlns:conv="clr-namespace:ModuleEdycja.Converters"
+            prism:ViewModelLocator.AutoWireViewModel="True"
+            >
+    <UserControl.Resources>
+        <conv:CategoryToImageConverter x:Key="CategoryToImageConverter"
+                                       ImagesFolder="Images"
+                                       DefaultImage="default.png" />
+    </UserControl.Resources>
+    <GroupBox Grid.Row="0" Header="Jednostki pływające" Margin="5">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="3*"/>
+            </Grid.ColumnDefinitions>
+            
+            <TextBlock Text="Kategoria:" Grid.Row="0" Grid.Column="0" Margin="5"/>
+            <TextBlock Text="{Binding WybranaJednostka.Kategoria, UpdateSourceTrigger=PropertyChanged}"  
+                     Grid.Row="0" Grid.Column="1" Margin="5" />
+            <TextBlock Text="Numer burtowy:" Grid.Row="1" Grid.Column="0" Margin="5"/>
+            <TextBlock Text="{Binding WybranaJednostka.NumerBurtowy, UpdateSourceTrigger=PropertyChanged}" 
+                     Grid.Row="1" Grid.Column="1" Margin="5" />
+            <TextBlock Grid.Row="2" Grid.Column="0" Margin="5 20 0 5" 
+                     Text="{Binding WybranaJednostka.Kategoria, 
+                            StringFormat=Załoga {0}:}" />
+            <ItemsControl ItemsSource="{Binding Zalogi}" 
+                          Grid.Row="3"
+                          Grid.Column="0"
+                          Grid.ColumnSpan="2"
+                          Margin="15 0 5 0">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Stanowisko}" />
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+
+            <Border Grid.RowSpan="5" Grid.Column="2" Margin="5">
+                <Grid Background="AliceBlue">
+                    <Image Source="{Binding WybranaJednostka.Kategoria, Converter={StaticResource CategoryToImageConverter}}"
+                           Stretch="Uniform"
+                           Margin="10" />
+                </Grid>
+            </Border>
+        </Grid>
+    </GroupBox>
+</UserControl>

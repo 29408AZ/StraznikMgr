@@ -1,0 +1,12 @@
+C:\Users\zaken\source\repos\Straznik\CommonUI\bin\Debug\net6.0\CommonUI.deps.json
+C:\Users\zaken\source\repos\Straznik\CommonUI\bin\Debug\net6.0\CommonUI.dll
+C:\Users\zaken\source\repos\Straznik\CommonUI\bin\Debug\net6.0\CommonUI.pdb
+C:\Users\zaken\source\repos\Straznik\CommonUI\obj\Debug\net6.0\CommonUI.csproj.AssemblyReference.cache
+C:\Users\zaken\source\repos\Straznik\CommonUI\obj\Debug\net6.0\CommonUI.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\zaken\source\repos\Straznik\CommonUI\obj\Debug\net6.0\CommonUI.AssemblyInfoInputs.cache
+C:\Users\zaken\source\repos\Straznik\CommonUI\obj\Debug\net6.0\CommonUI.AssemblyInfo.cs
+C:\Users\zaken\source\repos\Straznik\CommonUI\obj\Debug\net6.0\CommonUI.csproj.CoreCompileInputs.cache
+C:\Users\zaken\source\repos\Straznik\CommonUI\obj\Debug\net6.0\CommonUI.dll
+C:\Users\zaken\source\repos\Straznik\CommonUI\obj\Debug\net6.0\refint\CommonUI.dll
+C:\Users\zaken\source\repos\Straznik\CommonUI\obj\Debug\net6.0\CommonUI.pdb
+C:\Users\zaken\source\repos\Straznik\CommonUI\obj\Debug\net6.0\ref\CommonUI.dll

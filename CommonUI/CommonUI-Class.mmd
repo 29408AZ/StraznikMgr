@@ -1,0 +1,105 @@
+classDiagram 
+	
+	class Zaloga  {
+		+ Kategoria : string
+		+ Stanowisko : string
+		+ Zalogi : string
+		-WalidacjaZalogi(string kategoria, string stanowisko) void
+		+ToString() string
+	}
+	class Swiadectwo  {
+		+ MarynarzId : int
+		+ Stanowisko : string
+		+ Jednostka : string
+	}
+	class JednostkaPlywajacaService  {
+		-List~JednostkaPlywajaca~ _jednostki 
+		+GetAll() IEnumerable~JednostkaPlywajaca~
+		+GetByKategoria(string kategoria) IEnumerable~JednostkaPlywajaca~
+	}
+	class JednostkiUpdatedEvent  {
+	}
+	class IMarynarzService  {
+		-GetAll() IEnumerable~Marynarz~
+		-Update(Marynarz updatedMarynarz) void
+		-GetSwiadectwa(int marynarzId) IEnumerable~Swiadectwo~
+		-GetAllSwiadectwa() IEnumerable~Swiadectwo~
+	}
+	class MarynarzUpdatedEvent  {
+	}
+	class MarynarzService  {
+		-List~Marynarz~ _marynarze 
+		-List~Swiadectwo~ _swiadectwa 
+		+GetAll() IEnumerable~Marynarz~
+		+Update(Marynarz updatedMarynarz) void
+		+GetSwiadectwa(int marynarzId) IEnumerable~Swiadectwo~
+		+GetAllSwiadectwa() IEnumerable~Swiadectwo~
+	}
+	class ZalogiUpdatedEvent  {
+	}
+	class SwiadectwaKategorie  {
+		+ SwiadectwaKatII : ObservableCollection~Swiadectwo~
+		+ SwiadectwaKatIII : ObservableCollection~Swiadectwo~
+		+ SwiadectwaKatIV : ObservableCollection~Swiadectwo~
+	}
+	class IJednostkaPlywajacaService  {
+		-GetAll() IEnumerable~JednostkaPlywajaca~
+		-GetByKategoria(string kategoria) IEnumerable~JednostkaPlywajaca~
+	}
+	class ISwiadectwaService  {
+		-GetSwiadectwaForMarynarz(int marynarzId) SwiadectwaKategorie
+	}
+	class SelectedMarynarzEvent  {
+	}
+	class Patrol  {
+		+ DataOd : DateTime
+		+ DataDo : DateTime
+		+ Kategoria : string
+		+ Jednostka : JednostkaPlywajaca
+		+ Zaloga : List~PatrolZaloga~
+	}
+	class SelectedJednPlywEvent  {
+	}
+	class PatrolZaloga  {
+		+ Stanowisko : string
+		+ Marynarz : Marynarz
+	}
+	class JednostkaPlywajaca  {
+		+ Kategoria : string
+		+ NumerBurtowy : string
+		+ Jednostki : string
+		-Walidacja(string kategoria, string numerBurtowy) void
+		+ToString() string
+	}
+	class IZalogaService  {
+		-GetAll() IEnumerable~Zaloga~
+		-GetByKategoria(string kategoria) IEnumerable~Zaloga~
+	}
+	class Marynarz  {
+		-string _nazwa 
+		+ Id : int
+		+ Nazwa : string
+		+ Sluzby : Dictionary~DateTime&#44&#32string~
+		+ BilanseMiesiecy : Dictionary~string&#44&#32BilansGodzin~
+		+ StanNaKoniecOkresu : decimal
+		+ Funkcjonariusze : string
+		+Create(decimal godzinyPoczatek, decimal godzinyKoniec, decimal sluzba, decimal dyzur, decimal urlop, decimal oddelegowanie, decimal l4) BilansGodzin
+		+DodajBilansMiesieczny(string miesiac, decimal godzinyPoczatek, decimal godzinyKoniec, decimal sluzba, decimal dyzur, decimal urlop, decimal oddelegowanie, decimal l4) void
+		+GetBilansMiesieczny(string miesiac) BilansGodzin?
+		-WalidacjaNazwy(string nazwa) string
+		-WalidacjaId(int id) void
+	}
+	class SwiadectwaService  {
+		-IMarynarzService _marynarzService 
+		+GetSwiadectwaForMarynarz(int marynarzId) SwiadectwaKategorie
+	}
+	
+	JednostkaPlywajacaService --|> IJednostkaPlywajacaService
+	JednostkiUpdatedEvent --|> PubSubEvent
+	MarynarzUpdatedEvent --|> PubSubEvent
+	MarynarzService --|> IMarynarzService
+	ZalogiUpdatedEvent --|> PubSubEvent
+	SelectedMarynarzEvent --|> PubSubEvent
+	SelectedJednPlywEvent --|> PubSubEvent
+	SwiadectwaService --|> ISwiadectwaService
+	

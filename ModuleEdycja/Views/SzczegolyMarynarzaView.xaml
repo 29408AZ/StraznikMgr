@@ -1,0 +1,124 @@
+﻿<UserControl x:Class="ModuleEdycja.Views.SzczegolyMarynarzaView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:prism="http://prismlibrary.com/" 
+             xmlns:viewmodels="clr-namespace:ModuleEdycja.ViewModels" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             >
+    <GroupBox Header="{Binding WybranyMarynarz.Funkcjonariusze}" Margin="5" >
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="3*"/>
+                <RowDefinition Height="2*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+                <GroupBox Header="LISTOPAD" Grid.Column="0" Grid.Row="0" Margin="0,0,5,0" FontSize="18">
+                    <StackPanel Margin="5">
+                        <DockPanel Margin="0,2">
+                            <TextBlock Text="Początek miesiąca:" Margin="0,0,10,0"/>
+                            <TextBlock Text="{Binding WybranyMarynarz.BilanseMiesiecy[LISTOPAD].GodzinyPoczatek, StringFormat='{}{0} godz.'}" />
+                        </DockPanel>
+                        <DockPanel Margin="0,2">
+                            <TextBlock Text="Koniec miesiąca:" Margin="0,0,10,0"/>
+                            <TextBlock Text="{Binding WybranyMarynarz.BilanseMiesiecy[LISTOPAD].GodzinyKoniec, StringFormat='{}{0} godz.'}" />
+                        </DockPanel>
+                        <DockPanel Margin="0,2">
+                            <TextBlock Text="Służby:" Margin="0,0,10,0"/>
+                            <TextBlock Text="{Binding WybranyMarynarz.BilanseMiesiecy[LISTOPAD].Sluzba, StringFormat='{}{0} godz.'}" />
+                        </DockPanel>
+                        <DockPanel Margin="0,2">
+                            <TextBlock Text="Dyżury:" Margin="0,0,10,0"/>
+                            <TextBlock Text="{Binding WybranyMarynarz.BilanseMiesiecy[LISTOPAD].Dyzur, StringFormat='{}{0} godz.'}" />
+                        </DockPanel>
+                        <DockPanel Margin="0,2">
+                            <TextBlock Text="Urlop:" Margin="0,0,10,0"/>
+                            <TextBlock Text="{Binding WybranyMarynarz.BilanseMiesiecy[LISTOPAD].Urlop, StringFormat='{}{0} dni'}" />
+                        </DockPanel>
+                        <DockPanel Margin="0,2">
+                            <TextBlock Text="L4:" Margin="0,0,10,0"/>
+                            <TextBlock Text="{Binding WybranyMarynarz.BilanseMiesiecy[LISTOPAD].L4, StringFormat='{}{0} dni'}" />
+                        </DockPanel>
+                    </StackPanel>
+                </GroupBox>
+
+                <GroupBox Header="GRUDZIEŃ" Grid.Column="1" Grid.Row="0" Margin="5,0,0,0" FontSize="18">
+                    <StackPanel Margin="5">
+                        <DockPanel Margin="0,2">
+                            <TextBlock Text="Początek miesiąca:" Margin="0,0,10,0"/>
+                            <TextBlock Text="{Binding WybranyMarynarz.BilanseMiesiecy[GRUDZIEŃ].GodzinyPoczatek, StringFormat='{}{0} godz.'}" />
+                        </DockPanel>
+                        <DockPanel Margin="0,2">
+                            <TextBlock Text="Koniec miesiąca:" Margin="0,0,10,0"/>
+                            <TextBlock Text="{Binding WybranyMarynarz.BilanseMiesiecy[GRUDZIEŃ].GodzinyKoniec, StringFormat='{}{0} godz.'}" />
+                        </DockPanel>
+                        <DockPanel Margin="0,2">
+                            <TextBlock Text="Służby:" Margin="0,0,10,0"/>
+                            <TextBlock Text="{Binding WybranyMarynarz.BilanseMiesiecy[GRUDZIEŃ].Sluzba, StringFormat='{}{0} godz.'}" />
+                        </DockPanel>
+                        <DockPanel Margin="0,2">
+                            <TextBlock Text="Dyżury:" Margin="0,0,10,0"/>
+                        <TextBlock Text="{Binding WybranyMarynarz.BilanseMiesiecy[GRUDZIEŃ].Dyzur, StringFormat='{}{0} godz.'}" />
+                        </DockPanel>
+                    <DockPanel Margin="0,2">
+                        <TextBlock Text="Urlop:" Margin="0,0,10,0"/>
+                        <TextBlock Text="{Binding WybranyMarynarz.BilanseMiesiecy[GRUDZIEŃ].Urlop, StringFormat='{}{0} dni'}" />
+                    </DockPanel>
+                    <DockPanel Margin="0,2">
+                        <TextBlock Text="L4:" Margin="0,0,10,0"/>
+                        <TextBlock Text="{Binding WybranyMarynarz.BilanseMiesiecy[GRUDZIEŃ].L4, StringFormat='{}{0} dni'}" />
+                    </DockPanel>
+                </StackPanel>
+                </GroupBox>
+
+            <Grid Grid.Row="1" Grid.ColumnSpan="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Świadectwa -->
+                <GroupBox Header="KAT II" Grid.Column="0" Margin="0 2 0 4">
+                    <ListBox ItemsSource="{Binding SwiadectwaKatII}" 
+                            BorderThickness="0"
+                            Background="Transparent">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Stanowisko}" Margin="2"/>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </GroupBox>
+
+                <GroupBox Header="KAT III" Grid.Column="1" Margin="0 2 0 4">
+                    <ListBox ItemsSource="{Binding SwiadectwaKatIII}" 
+                            BorderThickness="0"
+                            Background="Transparent">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Stanowisko}" Margin="2"/>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </GroupBox>
+
+                <GroupBox Header="KAT IV" Grid.Column="2" Margin="0 2 0 4">
+                    <ListBox ItemsSource="{Binding SwiadectwaKatIV}" 
+                            BorderThickness="0"
+                            Background="Transparent">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Stanowisko}" Margin="2"/>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </GroupBox>
+            </Grid>
+        </Grid>
+    </GroupBox>
+</UserControl>
