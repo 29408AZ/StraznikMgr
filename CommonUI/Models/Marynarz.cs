@@ -51,6 +51,18 @@
         public decimal StanNaKoniecOkresu { get; private set; }
         public string Funkcjonariusze => Nazwa;
 
+        /// <summary>
+        /// Pobiera stan godzin na koniec podanego miesiąca
+        /// </summary>
+        public decimal GetGodzinyNaKoniecMiesiaca(string nazwaPolskaMiesiaca)
+        {
+            if (BilanseMiesiecy.TryGetValue(nazwaPolskaMiesiaca, out var bilans))
+            {
+                return bilans.GodzinyKoniec;
+            }
+            return 0;
+        }
+
         public Marynarz(int id, string nazwa)
         {
             WalidacjaId(id);

@@ -8,6 +8,7 @@ using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading;
@@ -15,6 +16,24 @@ using System.Threading.Tasks;
 
 namespace ModulePatrol.ViewModels
 {
+    /// <summary>
+    /// Wrapper do wyświetlania marynarza z ilością godzin
+    /// </summary>
+    public class MarynarzDisplay
+    {
+        public Marynarz Marynarz { get; }
+        public decimal GodzinyNaKoniecMiesiaca { get; }
+        
+        public string Nazwa => Marynarz.Nazwa;
+        public int Id => Marynarz.Id;
+
+        public MarynarzDisplay(Marynarz marynarz, string miesiacNazwa)
+        {
+            Marynarz = marynarz;
+            GodzinyNaKoniecMiesiaca = marynarz.GetGodzinyNaKoniecMiesiaca(miesiacNazwa);
+        }
+    }
+
     public class PatrolViewModel : BindableBase, IDisposable
     {
         private readonly IMarynarzService _marynarzService;
@@ -32,12 +51,12 @@ namespace ModulePatrol.ViewModels
         private DateTime _dataDo = new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1).AddMonths(2).AddDays(-1);
         private string? _wybranaKategoria;
         private JednostkaPlywajaca? _wybranaJednostka;
-        private Marynarz? _wybranyMarynarz;
+        private MarynarzDisplay? _wybranyMarynarz;
         private ZalogaSlot? _wybranySlot;
 
         private ObservableCollection<string> _kategorieJednostek;
         private ObservableCollection<JednostkaPlywajaca> _dostepneJednostki;
-        private ObservableCollection<Marynarz> _dostepniMarynarze;
+        private ObservableCollection<MarynarzDisplay> _dostepniMarynarze;
         private ObservableCollection<ZalogaSlot> _slotyZalogi;
 
         private DelegateCommand? _dodajDoZalogiCmd;
@@ -62,7 +81,7 @@ namespace ModulePatrol.ViewModels
 
             _kategorieJednostek = new ObservableCollection<string>();
             _dostepneJednostki = new ObservableCollection<JednostkaPlywajaca>();
-            _dostepniMarynarze = new ObservableCollection<Marynarz>();
+            _dostepniMarynarze = new ObservableCollection<MarynarzDisplay>();
             _slotyZalogi = new ObservableCollection<ZalogaSlot>();
 
             ZaladujKategorieJednostek();
@@ -144,7 +163,7 @@ namespace ModulePatrol.ViewModels
             }
         }
 
-        public Marynarz? WybranyMarynarz
+        public MarynarzDisplay? WybranyMarynarz
         {
             get => _wybranyMarynarz;
             set
@@ -172,7 +191,7 @@ namespace ModulePatrol.ViewModels
 
         public ObservableCollection<string> KategorieJednostek => _kategorieJednostek;
         public ObservableCollection<JednostkaPlywajaca> DostepneJednostki => _dostepneJednostki;
-        public ObservableCollection<Marynarz> DostepniMarynarze => _dostepniMarynarze;
+        public ObservableCollection<MarynarzDisplay> DostepniMarynarze => _dostepniMarynarze;
         public ObservableCollection<ZalogaSlot> SlotyZalogi => _slotyZalogi;
 
         #endregion
@@ -184,7 +203,7 @@ namespace ModulePatrol.ViewModels
         {
             if (WybranyMarynarz == null || WybranySlot == null) return;
 
-            WybranySlot.PrzydzielonyMarynarz = WybranyMarynarz;
+            WybranySlot.PrzydzielonyMarynarz = WybranyMarynarz?.Marynarz;
             WybranyMarynarz = null;
             _ = OdswiezDostepnychMarynarzyAsync();
             _zapiszPatrolCmd?.RaiseCanExecuteChanged();
@@ -413,6 +432,9 @@ namespace ModulePatrol.ViewModels
                 _logger.LogDebug("Szukam marynarzy dla stanowiska: '{Stanowisko}', kategoria: '{Kategoria}'", 
                     WybranySlot.Stanowisko, WybranaKategoria);
 
+                // Zbierz dostępnych marynarzy do tymczasowej listy
+                var dostepniMarynarzeTemp = new List<Marynarz>();
+
                 foreach (var marynarz in wszyscyMarynarze)
                 {
                     cancellationToken.ThrowIfCancellationRequested();
@@ -443,14 +465,34 @@ namespace ModulePatrol.ViewModels
                         
                         if (maUprawnienia)
                         {
-                            _dostepniMarynarze.Add(marynarz);
-                            _logger.LogDebug("Dodano marynarza: {Marynarz} (ma uprawnienia na {Stanowisko})", 
-                                marynarz.Nazwa, WybranySlot.Stanowisko);
+                            dostepniMarynarzeTemp.Add(marynarz);
+                            _logger.LogDebug("Dodano marynarza: {Marynarz} (ma uprawnienia na {Stanowisko}, godzin: {Godziny})", 
+                                marynarz.Nazwa, WybranySlot.Stanowisko, marynarz.StanNaKoniecOkresu);
                         }
                     }
                 }
 
-                _logger.LogDebug("Znaleziono {Count} dostępnych marynarzy", _dostepniMarynarze.Count);
+                // Oblicz aktualny miesiąc (nie następny!) - godziny na koniec aktualnego miesiąca
+                var dzisiaj = DateTime.Today;
+                var aktualnyMiesiacNazwa = MiesiacHelper.GetNazwa(dzisiaj.Month);
+
+                // Sortuj: najpierw po ilości godzin na koniec aktualnego miesiąca (rosnąco), potem alfabetycznie
+                var posortowani = dostepniMarynarzeTemp
+                    .OrderBy(m => m.GetGodzinyNaKoniecMiesiaca(aktualnyMiesiacNazwa))
+                    .ThenBy(m => m.Nazwa)
+                    .ToList();
+
+                // Dodaj posortowanych do ObservableCollection jako MarynarzDisplay
+                foreach (var marynarz in posortowani)
+                {
+                    _dostepniMarynarze.Add(new MarynarzDisplay(marynarz, aktualnyMiesiacNazwa));
+                }
+
+                _logger.LogInformation("Znaleziono {Count} dostępnych marynarzy (posortowanych wg godzin na koniec {Miesiac}: {Min}-{Max})", 
+                    _dostepniMarynarze.Count,
+                    aktualnyMiesiacNazwa,
+                    posortowani.FirstOrDefault()?.GetGodzinyNaKoniecMiesiaca(aktualnyMiesiacNazwa) ?? 0,
+                    posortowani.LastOrDefault()?.GetGodzinyNaKoniecMiesiaca(aktualnyMiesiacNazwa) ?? 0);
             }
             catch (OperationCanceledException)
             {

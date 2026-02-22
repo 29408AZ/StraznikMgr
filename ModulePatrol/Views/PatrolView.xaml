@@ -65,8 +65,18 @@
             <DockPanel Grid.Column="0">
                 <TextBlock DockPanel.Dock="Top" Text="Dostępni marynarze:" Margin="0,0,0,5"/>
                 <ListView ItemsSource="{Binding DostepniMarynarze}"
-                         SelectedItem="{Binding WybranyMarynarz}"
-                         DisplayMemberPath="Nazwa"/>
+                         SelectedItem="{Binding WybranyMarynarz}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock>
+                                <Run Text="{Binding Nazwa, Mode=OneWay}"/>
+                                <Run Text=" (" Foreground="Gray"/>
+                                <Run Text="{Binding GodzinyNaKoniecMiesiaca, StringFormat='{}{0:F0}', Mode=OneWay}" Foreground="Gray"/>
+                                <Run Text=" godz.)" Foreground="Gray"/>
+                            </TextBlock>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
             </DockPanel>
 
             <!-- Przyciski -->
