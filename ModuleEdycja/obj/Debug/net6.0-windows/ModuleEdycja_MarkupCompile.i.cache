@@ -16,5 +16,5 @@ TRACE;DEBUG;NET;NET6_0;NETCOREAPP;WINDOWS;WINDOWS7_0;NET5_0_OR_GREATER;NET6_0_OR
 23298353172
 Views\EdycjaView.xaml;Views\SzczegolyJednostkiView.xaml;Views\SzczegolyMarynarzaView.xaml;
 
-False
+True
 

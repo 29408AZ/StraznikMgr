@@ -14,6 +14,7 @@ C:\Users\zaken\source\repos\Straznik\ModuleListy\obj\Debug\net6.0-windows\Module
 C:\Users\zaken\source\repos\Straznik\ModuleListy\obj\Debug\net6.0-windows\ModuleListy.AssemblyInfoInputs.cache
 C:\Users\zaken\source\repos\Straznik\ModuleListy\obj\Debug\net6.0-windows\ModuleListy.AssemblyInfo.cs
 C:\Users\zaken\source\repos\Straznik\ModuleListy\obj\Debug\net6.0-windows\ModuleListy.csproj.CoreCompileInputs.cache
+C:\Users\zaken\source\repos\Straznik\ModuleListy\obj\Debug\net6.0-windows\ModuleListy.sourcelink.json
 C:\Users\zaken\source\repos\Straznik\ModuleListy\obj\Debug\net6.0-windows\ModuleLi.D49A67D9.Up2Date
 C:\Users\zaken\source\repos\Straznik\ModuleListy\obj\Debug\net6.0-windows\ModuleListy.dll
 C:\Users\zaken\source\repos\Straznik\ModuleListy\obj\Debug\net6.0-windows\refint\ModuleListy.dll

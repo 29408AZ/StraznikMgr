@@ -8,6 +8,7 @@ C:\Users\zaken\source\repos\Straznik\Services\obj\Debug\net6.0-windows\Services.
 C:\Users\zaken\source\repos\Straznik\Services\obj\Debug\net6.0-windows\Services.AssemblyInfoInputs.cache
 C:\Users\zaken\source\repos\Straznik\Services\obj\Debug\net6.0-windows\Services.AssemblyInfo.cs
 C:\Users\zaken\source\repos\Straznik\Services\obj\Debug\net6.0-windows\Services.csproj.CoreCompileInputs.cache
+C:\Users\zaken\source\repos\Straznik\Services\obj\Debug\net6.0-windows\Services.sourcelink.json
 C:\Users\zaken\source\repos\Straznik\Services\obj\Debug\net6.0-windows\Services.csproj.Up2Date
 C:\Users\zaken\source\repos\Straznik\Services\obj\Debug\net6.0-windows\Services.dll
 C:\Users\zaken\source\repos\Straznik\Services\obj\Debug\net6.0-windows\refint\Services.dll

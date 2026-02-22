@@ -91,6 +91,7 @@ C:\Users\zaken\source\repos\Straznik\Straznik\obj\Debug\net6.0-windows\Straznik.
 C:\Users\zaken\source\repos\Straznik\Straznik\obj\Debug\net6.0-windows\Straznik.AssemblyInfoInputs.cache
 C:\Users\zaken\source\repos\Straznik\Straznik\obj\Debug\net6.0-windows\Straznik.AssemblyInfo.cs
 C:\Users\zaken\source\repos\Straznik\Straznik\obj\Debug\net6.0-windows\Straznik.csproj.CoreCompileInputs.cache
+C:\Users\zaken\source\repos\Straznik\Straznik\obj\Debug\net6.0-windows\Straznik.sourcelink.json
 C:\Users\zaken\source\repos\Straznik\Straznik\obj\Debug\net6.0-windows\Straznik.csproj.Up2Date
 C:\Users\zaken\source\repos\Straznik\Straznik\obj\Debug\net6.0-windows\Straznik.dll
 C:\Users\zaken\source\repos\Straznik\Straznik\obj\Debug\net6.0-windows\refint\Straznik.dll

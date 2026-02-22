@@ -6,6 +6,7 @@ C:\Users\zaken\source\repos\Straznik\CommonUI\obj\Debug\net6.0\CommonUI.Generate
 C:\Users\zaken\source\repos\Straznik\CommonUI\obj\Debug\net6.0\CommonUI.AssemblyInfoInputs.cache
 C:\Users\zaken\source\repos\Straznik\CommonUI\obj\Debug\net6.0\CommonUI.AssemblyInfo.cs
 C:\Users\zaken\source\repos\Straznik\CommonUI\obj\Debug\net6.0\CommonUI.csproj.CoreCompileInputs.cache
+C:\Users\zaken\source\repos\Straznik\CommonUI\obj\Debug\net6.0\CommonUI.sourcelink.json
 C:\Users\zaken\source\repos\Straznik\CommonUI\obj\Debug\net6.0\CommonUI.dll
 C:\Users\zaken\source\repos\Straznik\CommonUI\obj\Debug\net6.0\refint\CommonUI.dll
 C:\Users\zaken\source\repos\Straznik\CommonUI\obj\Debug\net6.0\CommonUI.pdb

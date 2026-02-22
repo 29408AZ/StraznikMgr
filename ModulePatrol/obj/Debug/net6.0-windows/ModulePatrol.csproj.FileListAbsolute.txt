@@ -8,7 +8,9 @@ C:\Users\zaken\source\repos\Straznik\ModulePatrol\bin\Debug\net6.0-windows\Commo
 C:\Users\zaken\source\repos\Straznik\ModulePatrol\bin\Debug\net6.0-windows\ModuleEdycja.pdb
 C:\Users\zaken\source\repos\Straznik\ModulePatrol\bin\Debug\net6.0-windows\Services.pdb
 C:\Users\zaken\source\repos\Straznik\ModulePatrol\obj\Debug\net6.0-windows\ModulePatrol.csproj.AssemblyReference.cache
+C:\Users\zaken\source\repos\Straznik\ModulePatrol\obj\Debug\net6.0-windows\Views\ZalogaPodgladWindow.baml
 C:\Users\zaken\source\repos\Straznik\ModulePatrol\obj\Debug\net6.0-windows\Views\PatrolView.g.cs
+C:\Users\zaken\source\repos\Straznik\ModulePatrol\obj\Debug\net6.0-windows\Views\ZalogaPodgladWindow.g.cs
 C:\Users\zaken\source\repos\Straznik\ModulePatrol\obj\Debug\net6.0-windows\GeneratedInternalTypeHelper.g.cs
 C:\Users\zaken\source\repos\Straznik\ModulePatrol\obj\Debug\net6.0-windows\ModulePatrol_MarkupCompile.cache
 C:\Users\zaken\source\repos\Straznik\ModulePatrol\obj\Debug\net6.0-windows\ModulePatrol_MarkupCompile.lref
@@ -18,10 +20,9 @@ C:\Users\zaken\source\repos\Straznik\ModulePatrol\obj\Debug\net6.0-windows\Modul
 C:\Users\zaken\source\repos\Straznik\ModulePatrol\obj\Debug\net6.0-windows\ModulePatrol.AssemblyInfoInputs.cache
 C:\Users\zaken\source\repos\Straznik\ModulePatrol\obj\Debug\net6.0-windows\ModulePatrol.AssemblyInfo.cs
 C:\Users\zaken\source\repos\Straznik\ModulePatrol\obj\Debug\net6.0-windows\ModulePatrol.csproj.CoreCompileInputs.cache
+C:\Users\zaken\source\repos\Straznik\ModulePatrol\obj\Debug\net6.0-windows\ModulePatrol.sourcelink.json
 C:\Users\zaken\source\repos\Straznik\ModulePatrol\obj\Debug\net6.0-windows\ModulePa.B36C6B99.Up2Date
 C:\Users\zaken\source\repos\Straznik\ModulePatrol\obj\Debug\net6.0-windows\ModulePatrol.dll
 C:\Users\zaken\source\repos\Straznik\ModulePatrol\obj\Debug\net6.0-windows\refint\ModulePatrol.dll
 C:\Users\zaken\source\repos\Straznik\ModulePatrol\obj\Debug\net6.0-windows\ModulePatrol.pdb
 C:\Users\zaken\source\repos\Straznik\ModulePatrol\obj\Debug\net6.0-windows\ref\ModulePatrol.dll
-C:\Users\zaken\source\repos\Straznik\ModulePatrol\obj\Debug\net6.0-windows\Views\ZalogaPodgladWindow.baml
-C:\Users\zaken\source\repos\Straznik\ModulePatrol\obj\Debug\net6.0-windows\Views\ZalogaPodgladWindow.g.cs
