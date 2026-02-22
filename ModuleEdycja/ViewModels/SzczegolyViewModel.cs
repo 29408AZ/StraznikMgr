@@ -1,6 +1,7 @@
 ﻿using CommonUI.Events;
 using CommonUI.Models;
 using CommonUI.ModelServices;
+using CommonUI.Utilities;
 using ModuleEdycja.Views;
 using Prism.Events;
 using Prism.Mvvm;
@@ -30,6 +31,10 @@ namespace ModuleEdycja.ViewModels
         private bool _disposed;
         private bool _isBusy;
         private string _statusMessage = string.Empty;
+        private string _aktualnyMiesiac = string.Empty;
+        private string _nastepnyMiesiac = string.Empty;
+        private Marynarz.BilansGodzin? _bilansMiesiacAktualny;
+        private Marynarz.BilansGodzin? _bilansMiesiacNastepny;
 
         private const string REGION_WIDOKU = "SelectedViewRegion";
         private const string WIDOK_MARYNARZ = "SzczegolyMarynarzaView";
@@ -87,6 +92,30 @@ namespace ModuleEdycja.ViewModels
             set => SetProperty(ref _zalogi, value);
         }
 
+        public string AktualnyMiesiac
+        {
+            get => _aktualnyMiesiac;
+            set => SetProperty(ref _aktualnyMiesiac, value);
+        }
+
+        public string NastepnyMiesiac
+        {
+            get => _nastepnyMiesiac;
+            set => SetProperty(ref _nastepnyMiesiac, value);
+        }
+
+        public Marynarz.BilansGodzin? BilansMiesiacAktualny
+        {
+            get => _bilansMiesiacAktualny;
+            set => SetProperty(ref _bilansMiesiacAktualny, value);
+        }
+
+        public Marynarz.BilansGodzin? BilansMiesiacNastepny
+        {
+            get => _bilansMiesiacNastepny;
+            set => SetProperty(ref _bilansMiesiacNastepny, value);
+        }
+
         private void OnMarynarzSelected(Marynarz marynarz)
         {
             _ = PrzelaczWidokMarynarzAsync(marynarz);
@@ -111,6 +140,7 @@ namespace ModuleEdycja.ViewModels
                 WybranaJednostka = null;
                 _zalogi.Clear();
 
+                AktualizujDaneMiesieczne(marynarz);
                 await AktualizujSwiadectwaAsync(marynarz.Id);
                 AktywujWidok(WIDOK_MARYNARZ);
 
@@ -196,6 +226,26 @@ namespace ModuleEdycja.ViewModels
         private void AktywujWidok(string nazwaWidoku)
         {
             _regionManager.RequestNavigate(REGION_WIDOKU, nazwaWidoku);
+        }
+
+        private void AktualizujDaneMiesieczne(Marynarz marynarz)
+        {
+            // Oblicz aktualny i następny miesiąc
+            var dzis = DateTime.Today;
+            var miesiacAktualny = new DateTime(dzis.Year, dzis.Month, 1);
+            var miesiacNastepny = miesiacAktualny.AddMonths(1);
+
+            AktualnyMiesiac = MiesiacHelper.GetNazwa(miesiacAktualny.Month);
+            NastepnyMiesiac = MiesiacHelper.GetNazwa(miesiacNastepny.Month);
+
+            // Pobierz bilansy dla tych miesięcy
+            BilansMiesiacAktualny = marynarz.BilanseMiesiecy.TryGetValue(AktualnyMiesiac, out var bilansAktualny) 
+                ? bilansAktualny 
+                : null;
+
+            BilansMiesiacNastepny = marynarz.BilanseMiesiecy.TryGetValue(NastepnyMiesiac, out var bilansNastepny) 
+                ? bilansNastepny 
+                : null;
         }
 
         public void Dispose()

@@ -1,6 +1,7 @@
 using CommonUI.Common;
 using CommonUI.Models;
 using CommonUI.ModelServices;
+using CommonUI.Utilities;
 using Microsoft.Extensions.Logging;
 using OfficeOpenXml;
 using System;
@@ -16,13 +17,6 @@ namespace Services
         private readonly IExcelFileService _excelFileService;
         private readonly ILogger<ExcelPatrolService> _logger;
         private readonly SemaphoreSlim _dataLock = new(1, 1);
-
-        private static readonly Dictionary<int, string> MonthToSheetName = new()
-        {
-            { 1, "STYCZEŃ" }, { 2, "LUTY" }, { 3, "MARZEC" }, { 4, "KWIECIEŃ" },
-            { 5, "MAJ" }, { 6, "CZERWIEC" }, { 7, "LIPIEC" }, { 8, "SIERPIEŃ" },
-            { 9, "WRZESIEŃ" }, { 10, "PAŹDZIERNIK" }, { 11, "LISTOPAD" }, { 12, "GRUDZIEŃ" }
-        };
 
         public ExcelPatrolService(IExcelFileService excelFileService, ILogger<ExcelPatrolService> logger)
         {
@@ -114,7 +108,7 @@ namespace Services
 
         private string GetMonthSheetName(int month)
         {
-            return MonthToSheetName.TryGetValue(month, out var name) ? name : $"Miesiąc {month}";
+            return MiesiacHelper.GetNazwa(month);
         }
 
         private ExcelWorksheet? GetWorksheet(string sheetName)

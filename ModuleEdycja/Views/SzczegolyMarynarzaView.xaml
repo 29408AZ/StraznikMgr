@@ -17,60 +17,60 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-                <GroupBox Header="LISTOPAD" Grid.Column="0" Grid.Row="0" Margin="0,0,5,0" FontSize="18">
+                <GroupBox Header="{Binding AktualnyMiesiac}" Grid.Column="0" Grid.Row="0" Margin="0,0,5,0" FontSize="18">
                     <StackPanel Margin="5">
                         <DockPanel Margin="0,2">
                             <TextBlock Text="Początek miesiąca:" Margin="0,0,10,0"/>
-                            <TextBlock Text="{Binding WybranyMarynarz.BilanseMiesiecy[LISTOPAD].GodzinyPoczatek, StringFormat='{}{0} godz.'}" />
+                            <TextBlock Text="{Binding BilansMiesiacAktualny.GodzinyPoczatek, StringFormat='{}{0} godz.'}" />
                         </DockPanel>
                         <DockPanel Margin="0,2">
                             <TextBlock Text="Koniec miesiąca:" Margin="0,0,10,0"/>
-                            <TextBlock Text="{Binding WybranyMarynarz.BilanseMiesiecy[LISTOPAD].GodzinyKoniec, StringFormat='{}{0} godz.'}" />
+                            <TextBlock Text="{Binding BilansMiesiacAktualny.GodzinyKoniec, StringFormat='{}{0} godz.'}" />
                         </DockPanel>
                         <DockPanel Margin="0,2">
                             <TextBlock Text="Służby:" Margin="0,0,10,0"/>
-                            <TextBlock Text="{Binding WybranyMarynarz.BilanseMiesiecy[LISTOPAD].Sluzba, StringFormat='{}{0} godz.'}" />
+                            <TextBlock Text="{Binding BilansMiesiacAktualny.Sluzba, StringFormat='{}{0} godz.'}" />
                         </DockPanel>
                         <DockPanel Margin="0,2">
                             <TextBlock Text="Dyżury:" Margin="0,0,10,0"/>
-                            <TextBlock Text="{Binding WybranyMarynarz.BilanseMiesiecy[LISTOPAD].Dyzur, StringFormat='{}{0} godz.'}" />
+                            <TextBlock Text="{Binding BilansMiesiacAktualny.Dyzur, StringFormat='{}{0} godz.'}" />
                         </DockPanel>
                         <DockPanel Margin="0,2">
                             <TextBlock Text="Urlop:" Margin="0,0,10,0"/>
-                            <TextBlock Text="{Binding WybranyMarynarz.BilanseMiesiecy[LISTOPAD].Urlop, StringFormat='{}{0} dni'}" />
+                            <TextBlock Text="{Binding BilansMiesiacAktualny.Urlop, StringFormat='{}{0} dni'}" />
                         </DockPanel>
                         <DockPanel Margin="0,2">
                             <TextBlock Text="L4:" Margin="0,0,10,0"/>
-                            <TextBlock Text="{Binding WybranyMarynarz.BilanseMiesiecy[LISTOPAD].L4, StringFormat='{}{0} dni'}" />
+                            <TextBlock Text="{Binding BilansMiesiacAktualny.L4, StringFormat='{}{0} dni'}" />
                         </DockPanel>
                     </StackPanel>
                 </GroupBox>
 
-                <GroupBox Header="GRUDZIEŃ" Grid.Column="1" Grid.Row="0" Margin="5,0,0,0" FontSize="18">
+                <GroupBox Header="{Binding NastepnyMiesiac}" Grid.Column="1" Grid.Row="0" Margin="5,0,0,0" FontSize="18">
                     <StackPanel Margin="5">
                         <DockPanel Margin="0,2">
                             <TextBlock Text="Początek miesiąca:" Margin="0,0,10,0"/>
-                            <TextBlock Text="{Binding WybranyMarynarz.BilanseMiesiecy[GRUDZIEŃ].GodzinyPoczatek, StringFormat='{}{0} godz.'}" />
+                            <TextBlock Text="{Binding BilansMiesiacNastepny.GodzinyPoczatek, StringFormat='{}{0} godz.'}" />
                         </DockPanel>
                         <DockPanel Margin="0,2">
                             <TextBlock Text="Koniec miesiąca:" Margin="0,0,10,0"/>
-                            <TextBlock Text="{Binding WybranyMarynarz.BilanseMiesiecy[GRUDZIEŃ].GodzinyKoniec, StringFormat='{}{0} godz.'}" />
+                            <TextBlock Text="{Binding BilansMiesiacNastepny.GodzinyKoniec, StringFormat='{}{0} godz.'}" />
                         </DockPanel>
                         <DockPanel Margin="0,2">
                             <TextBlock Text="Służby:" Margin="0,0,10,0"/>
-                            <TextBlock Text="{Binding WybranyMarynarz.BilanseMiesiecy[GRUDZIEŃ].Sluzba, StringFormat='{}{0} godz.'}" />
+                            <TextBlock Text="{Binding BilansMiesiacNastepny.Sluzba, StringFormat='{}{0} godz.'}" />
                         </DockPanel>
                         <DockPanel Margin="0,2">
                             <TextBlock Text="Dyżury:" Margin="0,0,10,0"/>
-                        <TextBlock Text="{Binding WybranyMarynarz.BilanseMiesiecy[GRUDZIEŃ].Dyzur, StringFormat='{}{0} godz.'}" />
+                        <TextBlock Text="{Binding BilansMiesiacNastepny.Dyzur, StringFormat='{}{0} godz.'}" />
                         </DockPanel>
                     <DockPanel Margin="0,2">
                         <TextBlock Text="Urlop:" Margin="0,0,10,0"/>
-                        <TextBlock Text="{Binding WybranyMarynarz.BilanseMiesiecy[GRUDZIEŃ].Urlop, StringFormat='{}{0} dni'}" />
+                        <TextBlock Text="{Binding BilansMiesiacNastepny.Urlop, StringFormat='{}{0} dni'}" />
                     </DockPanel>
                     <DockPanel Margin="0,2">
                         <TextBlock Text="L4:" Margin="0,0,10,0"/>
-                        <TextBlock Text="{Binding WybranyMarynarz.BilanseMiesiecy[GRUDZIEŃ].L4, StringFormat='{}{0} dni'}" />
+                        <TextBlock Text="{Binding BilansMiesiacNastepny.L4, StringFormat='{}{0} dni'}" />
                     </DockPanel>
                 </StackPanel>
                 </GroupBox>
